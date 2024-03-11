@@ -1,7 +1,7 @@
 ### CREACIÓN DE TABLAS  POSTGRESQL -  VENTAS
 
 
-```postgresql
+```sql
 DROP DATABASE IF EXISTS ventas;
 CREATE DATABASE ventas;
 
@@ -77,7 +77,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
 1. Consulta 1
 
-   ```postgresql
+   ```sql
     SELECT * FROM pedido 
     ORDER BY fecha DESC;
    ```
@@ -86,7 +86,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
 2. Consulta 2
 
-   ```postgresql
+   ```sql
    SELECT * 
    FROM pedido 
    ORDER BY total 
@@ -97,7 +97,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
 3. Consulta 3
 
-   ```postgresql
+   ```sql
    SELECT DISTINCT id_cliente 
    FROM pedido;
    ```
@@ -106,7 +106,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
 4. Consulta 4
 
-   ```postgresql
+   ```sql
    SELECT * 
    FROM pedido 
    WHERE fecha 
@@ -117,7 +117,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
 5. Consulta 5
 
-   ```postgresql
+   ```sql
    SELECT nombre || ' '  || apellido1 || ' '|| apellido2 AS COMERCIAL, comisión 
    FROM COMERCIAL 
    WHERE comisión 
@@ -128,14 +128,14 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
 6. Consulta 6
 
-   ```postgresql
+   ```sql
    SELECT MAX(comisión) 
    FROM comercial;
    ```
 
 7. Consulta 7
 
-   ```postgresql
+   ```sql
    SELECT id, nombre, apellido1 
    FROM cliente 
    WHERE apellido2 IS NOT NULL 
@@ -144,7 +144,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
 8. Consulta 8
 
-   ```postgresql
+   ```sql
    SELECT * 
    FROM cliente 
    WHERE nombre 
@@ -154,7 +154,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
 9. Consulta 9
 
-   ```postgresql
+   ```sql
    SELECT * 
    FROM cliente 
    WHERE nombre NOT LIKE 'A%'
@@ -163,7 +163,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
 10. Consulta 10
 
-    ```postgresql
+    ```sql
     SELECT DISTINCT nombre 
     FROM comercial 
     WHERE nombre LIKE '%el' OR nombre LIKE '%o' 
@@ -174,7 +174,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
 1. CONSULTA  MULTITABLA #1
 
-    ```postgresql
+    ```sql
     SELECT DISTINCT C.id, C.nombre, C.apellido1, C.apellido2 
     FROM cliente C 
     INNER JOIN pedido P ON C.id = P.id_cliente 
@@ -183,7 +183,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
 2. CONSULTA  MULTITABLA #2
 
-    ```postgresql
+    ```sql
     SELECT c.id, c.nombre, c.apellido1, c.apellido2, p.id, p.fecha, p.total
     FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente
     ORDER BY 3 ASC, 4 ASC, 2 ASC;
@@ -191,33 +191,33 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
 3. CONSULTA  MULTITABLA #3
 
-    ```postgresql
+    ```sql
     SELECT co.nombre, co.apellido1, co.apellido2, p.id, p.fecha, p.total
     FROM comercial co INNER JOIN pedido p ON co.id = p.id_cliente
     ORDER BY 2 ASC, 3 ASC, 1 ASC;
     ```
 
 4. CONSULTA  MULTITABLA #4
-    ```postgresql
+    ```sql
     SELECT *
     FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente 
     INNER JOIN comercial co ON p.id_comercial = co.id;
     ```
 
 5. CONSULTA  MULTITABLA #5
-    ```postgresql
+    ```sql
     SELECT *
     FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente
     WHERE p.fecha BETWEEN '2017-01-01' AND '2017-12-31' AND p.total BETWEEN 300 AND 1000
     ```
 6. CONSULTA  MULTITABLA #6
-    ```postgresql
+    ```sql
     SELECT MAX(comisión)
     FROM comercial c;
     ```
 
 7. CONSULTA  MULTITABLA #7
-    ```postgresql
+    ```sql
     SELECT c.id, c.nombre, c.apellido1
     FROM cliente c
     WHERE c.apellido2 IS NOT NULL 
@@ -225,7 +225,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
     ```
 
 8. CONSULTA  MULTITABLA #8
-    ```postgresql
+    ```sql
     SELECT c.nombre
     FROM cliente c
     WHERE c.nombre ILIKE 'a%' AND c.nombre LIKE '%n' OR c.nombre LIKE 'p%'
@@ -233,7 +233,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
     ```
     
 9. CONSULTA  MULTITABLA #9
-    ```postgresql
+    ```sql
     SELECT c.nombre
     FROM cliente c
     WHERE c.nombre NOT ILIKE 'a%'
@@ -241,7 +241,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 	```
 	
 10. CONSULTA  MULTITABLA #10
-    ```postgresql
+    ```sql
     SELECT DISTINCT c.nombre
     FROM comercial c
     WHERE c.nombre LIKE '%el' OR c.nombre LIKE '%o';
@@ -252,42 +252,42 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
 --CONSULTA #1
 
-```postgresql
+```sql
 SELECT DISTINCT c.id, c.nombre, c.apellido1, c.apellido2
 FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente
 ORDER BY 3 ASC, 4 ASC, 2 ASC;
 ```
 
 --CONSULTA #2
-```postgresql
+```sql
 SELECT c.id, c.nombre, c.apellido1, c.apellido2, p.id, p.fecha, p.total
 FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente
 ORDER BY 3 ASC, 4 ASC, 2 ASC;
 ```
 
 --CONSULTA #3
-```postgresql
+```sql
 SELECT co.nombre, co.apellido1, co.apellido2, p.id, p.fecha, p.total
 FROM comercial co INNER JOIN pedido p ON co.id = p.id_cliente
 ORDER BY 2 ASC, 3 ASC, 1 ASC;
 ```
 
 --CONSULTA #4
-```postgresql
+```sql
 SELECT *
 FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente 
 INNER JOIN comercial co ON p.id_comercial = co.id;
 ```
 
 --CONSULTA #5
-```postgresql
+```sql
 SELECT *
 FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente
 WHERE p.fecha BETWEEN '2017-01-01' AND '2017-12-31' AND p.total BETWEEN 300 AND 1000;
 ```
 
 --CONSULTA #6
-```postgresql
+```sql
 SELECT DISTINCT co.nombre, co.apellido1, co.apellido2
 FROM comercial co INNER JOIN pedido p ON co.id = p.id_comercial
 INNER JOIN cliente c ON p.id_cliente = c.id
@@ -295,7 +295,7 @@ WHERE c.nombre = 'María' AND c.apellido1 = 'Santana' AND c.apellido2 = 'Moreno'
 ```
 
 --CONSULTA #7
-```postgresql
+```sql
 SELECT DISTINCT c.nombre, c.apellido1, c.apellido2
 FROM comercial co INNER JOIN pedido p ON co.id = p.id_comercial
 INNER JOIN cliente c ON p.id_cliente = c.id
@@ -304,20 +304,20 @@ WHERE co.nombre = 'Daniel' AND co.apellido1 = 'Sáez' AND co.apellido2 = 'Vega'
 
 ### CONSULTAS MULTITABLA (Composición externa)
 --CONSULTA #1
-```postgresql
+```sql
 SELECT *
 FROM cliente c LEFT JOIN pedido p ON c.id = p.id_cliente
 ORDER BY c.apellido1 ASC, c.apellido2 ASC, c.nombre ASC 
 ```
 
 --CONSULTA #2
-```postgresql
+```sql
 SELECT *
 FROM comercial c LEFT JOIN pedido p ON c.id = p.id_cliente
 ORDER BY c.apellido1 ASC, c.apellido2 ASC, c.nombre ASC 
 ```
 --CONSULTA #3
-```postgresql
+```sql
 SELECT *
 FROM cliente c LEFT JOIN pedido p ON c.id = p.id_cliente
 WHERE p.id_cliente IS NULL
@@ -325,14 +325,14 @@ ORDER BY c.apellido1 ASC, c.apellido2 ASC, c.nombre ASC
 ```
 
 --CONSULTA #4
-```postgresql
+```sql
 SELECT *
 FROM comercial c LEFT JOIN pedido p ON c.id = p.id_comercial
 WHERE p.id_comercial IS NULL
 ORDER BY c.apellido1 ASC, c.apellido2 ASC, c.nombre ASC
 ```
 --CONSULTA #5 
-```postgresql
+```sql
 SELECT c.nombre || ' ' || c.apellido1 || ' '|| c.apellido2 
 AS "Resultado"
 FROM cliente c LEFT JOIN pedido p ON c.id = p.id_cliente
@@ -353,49 +353,49 @@ También, en la tabla Cliente su PK se llama "Id", mientras que en Pedido, el ca
 
 ### CONSULTAS RESÚMEN
 --CONSULTA #1
-```postgresql
+```sql
 SELECT SUM(total) AS "Total"
 FROM pedido 
 ```
 
 --CONSULTA #2
 
-```postgresql
+```sql
 SELECT AVG(p.total) AS "Promedio"
 FROM pedido p
 ```
 
 --CONSULTA #3
-```postgresql
+```sql
 SELECT COUNT(DISTINCT p.id_comercial) AS "Comerciales distintos"
 FROM pedido p 
 ```
 
 --CONSULTA #4
-```postgresql
+```sql
 SELECT COUNT(*) AS "Cantidad de Clientes"
 FROM cliente c
 ```
 
 --CONSULTA #5
-```postgresql
+```sql
 SELECT MAX(p.total) AS "Mayor cantidad"
 FROM pedido p
 ```
 
 --CONSULTA #6
-```postgresql
+```sql
 SELECT MIN(p.total) AS "Menor cantidad"
 FROM pedido p
 ```
 --CONSULTA #7
-```postgresql
+```sql
 SELECT ciudad, MAX(cliente.categoria) 
 FROM cliente 
 GROUP BY ciudad
 ```
 --CONSULTA #8 
-```postgresql
+```sql
 SELECT c.id, c.nombre, c.apellido1, c.apellido2, p.fecha, MAX(p.total) AS "Máximo valor"
 FROM cliente c
 INNER JOIN pedido p ON p.id_cliente = c.id
@@ -404,7 +404,7 @@ GROUP BY c.id, p.fecha;
 ```
 
 --CONSULTA #9
-```postgresql
+```sql
 SELECT p.fecha, MAX(p.total) AS "Valor"
 FROM pedido p
 INNER JOIN cliente c ON c.id = p.id_cliente
@@ -414,7 +414,7 @@ HAVING MAX(p.total) > 2000;
 ```
 
 --CONSULTA #10
-```postgresql
+```sql
 SELECT c.id, c.nombre, c.apellido1, c.apellido2, MAX(p.total) AS "Total"
 FROM comercial c INNER JOIN pedido p ON p.id_comercial = c.id
 WHERE p.fecha = '2016-08-17'
@@ -422,14 +422,14 @@ GROUP BY c.id
 ```
 
 --CONSULTA #11
-```postgresql
+```sql
 SELECT c.id, c.nombre, c.apellido1, c.apellido2, COUNT(p.id) AS "Cantidad de pedidos"
 FROM cliente c LEFT JOIN pedido p ON c.id = p.id_cliente
 GROUP BY c.id
 ```
 
 --CONSULTA #12
-```postgresql
+```sql
 SELECT c.id, c.nombre, c.apellido1, c.apellido2, COUNT(p.id_cliente) AS "Cantidad de pedidos"
 FROM pedido p INNER JOIN cliente c ON c.id = p.id_cliente
 WHERE p.fecha BETWEEN '2017-01-01' AND '2017-12-31'
@@ -437,7 +437,7 @@ GROUP BY c.id
 ```
 
 --CONSULTA #13 
-```postgresql
+```sql
 SELECT c.id, c.nombre, c.apellido1, COALESCE(MAX(p.total), 0) AS "Valor"
 FROM cliente c
 LEFT JOIN pedido p ON c.id = p.id_cliente
@@ -445,14 +445,14 @@ GROUP BY c.id;
 ```
 
 --CONSULTA #14 
-```postgresql
+```sql
 SELECT p.fecha, MAX(p.total) AS "Total"
 FROM pedido p
 GROUP BY p.fecha;
 ```
 
 --CONSULTA #15
-```postgresql
+```sql
 SELECT fecha, COUNT(*) AS "Cantidad de pedidos"
 FROM pedido 
 GROUP BY fecha
@@ -460,7 +460,7 @@ GROUP BY fecha
 
 ### CONSULTAS SUBCONSULTAS
 --CONSULTA #1
-```postgresql
+```sql
 SELECT * 
 FROM pedido p
 WHERE p.id_cliente = (SELECT c.id 
@@ -469,7 +469,7 @@ WHERE c.nombre = 'Adela' AND c.apellido1 = 'Salas' AND c.apellido2 = 'Díaz')
 ```
 
 --CONSULTA #2
-```postgresql
+```sql
 SELECT COUNT(*) AS "Pedidos de Daniel Sáez Vega"
 FROM pedido p 
 WHERE p.id_comercial = (SELECT c.id
@@ -478,7 +478,7 @@ WHERE c.nombre = 'Daniel' AND c.apellido1 = 'Sáez' AND c.apellido2 = 'Vega')
 ```
 
 --CONSULTA #3 --PENDIENTE
- ```postgresql
+ ```sql
 SELECT c.nombre, c.apellido1, c.apellido2, c.ciudad
 FROM pedido p, cliente c
 WHERE p.id_cliente = c.id AND p.total = (SELECT MAX(p.total)
@@ -487,7 +487,7 @@ FROM pedido p
  ```
 
 --CONSULTA #4
-```postgresql
+```sql
 SELECT p.fecha, MIN(p.total)
 FROM pedido p
 WHERE p.id_cliente = (SELECT c.id
@@ -496,7 +496,7 @@ WHERE c.nombre = 'Pepe' AND c.apellido1 = 'Ruiz' AND c.apellido2 = 'Santana')
 ```
 
 --CONSULTA #5 
-```postgresql
+```sql
 SELECT * FROM cliente AS c
 JOIN pedido AS p ON (c.id = p.id_cliente)
 WHERE EXTRACT(YEAR FROM fecha) = 2017 AND p.total >= (
@@ -506,7 +506,7 @@ WHERE EXTRACT(YEAR FROM fecha) = 2017 AND p.total >= (
 
 ### CONSULTA ALL Y ANY
 --CONSULTA #1
-```postgresql
+```sql
 SELECT *
 FROM pedido p 
 WHERE p.total >= ALL(SELECT MAX(p.total)
@@ -514,14 +514,14 @@ FROM pedido p)
 ```
 
 --CONSULTA #2
-```postgresql
+```sql
 SELECT c.nombre, c.apellido1, c.apellido2
 FROM cliente c
 WHERE c.id <> ALL(SELECT DISTINCT p.id_cliente FROM pedido p)
 ```
 
 --CONSULTA #3
-```postgresql
+```sql
 SELECT c.nombre, c.apellido1, c.apellido2
 FROM comercial c
 WHERE c.id <> ALL(SELECT DISTINCT p.id_comercial FROM pedido p)
@@ -529,7 +529,7 @@ WHERE c.id <> ALL(SELECT DISTINCT p.id_comercial FROM pedido p)
 
 ### CONSULTA CON IN Y NOT IN
 --CONSULTA #1
-```postgresql
+```sql
 SELECT c.nombre, c.apellido1, c.apellido2
 FROM cliente c
 WHERE c.id NOT IN (SELECT DISTINCT p.id_cliente
@@ -537,7 +537,7 @@ WHERE c.id NOT IN (SELECT DISTINCT p.id_cliente
 ```
 
 --CONSULTA #2
-```postgresql
+```sql
 SELECT c.nombre, c.apellido1, c.apellido2
 FROM comercial c
 WHERE c.id NOT IN (SELECT DISTINCT p.id_comercial
@@ -546,7 +546,7 @@ WHERE c.id NOT IN (SELECT DISTINCT p.id_comercial
 
 ### CONSULTA CON EXISTS Y NO EXISTS
 --CONSULTA #1
-```postgresql
+```sql
 SELECT *
 FROM cliente c
 WHERE NOT EXISTS (SELECT p.id_cliente 
@@ -555,7 +555,7 @@ WHERE c.id = p.id_cliente)
 ```
 
 --CONSULTA #2
-```postgresql
+```sql
 SELECT *
 FROM comercial c
 WHERE NOT EXISTS (SELECT p.id_cliente
