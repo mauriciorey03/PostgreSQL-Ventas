@@ -73,7 +73,7 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 ```
 
 
-### Consultas
+### Consultas básicas
 
 1. Consulta 1
 
@@ -126,270 +126,439 @@ INSERT INTO pedido VALUES(16, 2389.23, '2019-03-11', 1, 5);
 
    ![image-20240311144422257](C:\Users\mauri\AppData\Roaming\Typora\typora-user-images\image-20240311144422257.png)
 
-6. Consulta 1
+6. Consulta 6
 
    ```postgresql
-    SELECT * FROM pedido 
-    ORDER BY fecha DESC;
+   SELECT MAX(comisión) 
+   FROM comercial;
    ```
 
-7. Consulta 1
+7. Consulta 7
 
    ```postgresql
-    SELECT * FROM pedido 
-    ORDER BY fecha DESC;
+   SELECT id, nombre, apellido1 
+   FROM cliente 
+   WHERE apellido2 IS NOT NULL 
+   ORDER BY apellido1;
    ```
 
-8. Consulta 1
+8. Consulta 8
 
    ```postgresql
-    SELECT * FROM pedido 
-    ORDER BY fecha DESC;
+   SELECT * 
+   FROM cliente 
+   WHERE nombre 
+   LIKE 'A%' AND nombre LIKE '%n' OR nombre LIKE 'P%' 
+   ORDER BY nombre;
    ```
 
-9. Consulta 1
+9. Consulta 9
 
    ```postgresql
-    SELECT * FROM pedido 
-    ORDER BY fecha DESC;
+   SELECT * 
+   FROM cliente 
+   WHERE nombre NOT LIKE 'A%'
+   ORDER BY nombre;
    ```
 
-10. Consulta 1
+10. Consulta 10
 
     ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
+    SELECT DISTINCT nombre 
+    FROM comercial 
+    WHERE nombre LIKE '%el' OR nombre LIKE '%o' 
+    ORDER BY nombre;
     ```
 
-11. Consulta 1
+### CONSULTAS MULTITABLA
+
+1. CONSULTA  MULTITABLA #1
 
     ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
+    SELECT DISTINCT C.id, C.nombre, C.apellido1, C.apellido2 
+    FROM cliente C 
+    INNER JOIN pedido P ON C.id = P.id_cliente 
+    ORDER BY 3 ASC, 4 ASC, 2 ASC;
     ```
 
-12. Consulta 1
+2. CONSULTA  MULTITABLA #2
 
     ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
+    SELECT c.id, c.nombre, c.apellido1, c.apellido2, p.id, p.fecha, p.total
+    FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente
+    ORDER BY 3 ASC, 4 ASC, 2 ASC;
     ```
 
-13. Consulta 1
+3. CONSULTA  MULTITABLA #3
 
     ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
+    SELECT co.nombre, co.apellido1, co.apellido2, p.id, p.fecha, p.total
+    FROM comercial co INNER JOIN pedido p ON co.id = p.id_cliente
+    ORDER BY 2 ASC, 3 ASC, 1 ASC;
     ```
 
-14. Consulta 1
-
+4. CONSULTA  MULTITABLA #4
     ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
+    SELECT *
+    FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente 
+    INNER JOIN comercial co ON p.id_comercial = co.id;
     ```
 
-15. Consulta 1
-
+5. CONSULTA  MULTITABLA #5
     ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
+    SELECT *
+    FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente
+    WHERE p.fecha BETWEEN '2017-01-01' AND '2017-12-31' AND p.total BETWEEN 300 AND 1000
     ```
-
-16. Consulta 1
-
+6. CONSULTA  MULTITABLA #6
     ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
+    SELECT MAX(comisión)
+    FROM comercial c;
     ```
 
-17. Consulta 1
-
+7. CONSULTA  MULTITABLA #7
     ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
+    SELECT c.id, c.nombre, c.apellido1
+    FROM cliente c
+    WHERE c.apellido2 IS NOT NULL 
+    ORDER BY 3 ASC, 2 ASC;
     ```
 
-18. Consulta 1
-
+8. CONSULTA  MULTITABLA #8
     ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
+    SELECT c.nombre
+    FROM cliente c
+    WHERE c.nombre ILIKE 'a%' AND c.nombre LIKE '%n' OR c.nombre LIKE 'p%'
+    ORDER BY 1 ASC;
     ```
-
-19. Consulta 1
-
+    
+9. CONSULTA  MULTITABLA #9
     ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
-
-20. Consulta 1
-
+    SELECT c.nombre
+    FROM cliente c
+    WHERE c.nombre NOT ILIKE 'a%'
+    ORDER BY 1 ASC;
+	```
+	
+10. CONSULTA  MULTITABLA #10
     ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
+    SELECT DISTINCT c.nombre
+    FROM comercial c
+    WHERE c.nombre LIKE '%el' OR c.nombre LIKE '%o';
     ```
+    
 
-21. Consulta 1
+### CONSULTAS MULTITABLA (Composición interna)
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+--CONSULTA #1
 
-22. Consulta 1
+```postgresql
+SELECT DISTINCT c.id, c.nombre, c.apellido1, c.apellido2
+FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente
+ORDER BY 3 ASC, 4 ASC, 2 ASC;
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+--CONSULTA #2
+```postgresql
+SELECT c.id, c.nombre, c.apellido1, c.apellido2, p.id, p.fecha, p.total
+FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente
+ORDER BY 3 ASC, 4 ASC, 2 ASC;
+```
 
-23. Consulta 1
+--CONSULTA #3
+```postgresql
+SELECT co.nombre, co.apellido1, co.apellido2, p.id, p.fecha, p.total
+FROM comercial co INNER JOIN pedido p ON co.id = p.id_cliente
+ORDER BY 2 ASC, 3 ASC, 1 ASC;
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+--CONSULTA #4
+```postgresql
+SELECT *
+FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente 
+INNER JOIN comercial co ON p.id_comercial = co.id;
+```
 
-24. Consulta 1
+--CONSULTA #5
+```postgresql
+SELECT *
+FROM cliente c INNER JOIN pedido p ON c.id = p.id_cliente
+WHERE p.fecha BETWEEN '2017-01-01' AND '2017-12-31' AND p.total BETWEEN 300 AND 1000;
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+--CONSULTA #6
+```postgresql
+SELECT DISTINCT co.nombre, co.apellido1, co.apellido2
+FROM comercial co INNER JOIN pedido p ON co.id = p.id_comercial
+INNER JOIN cliente c ON p.id_cliente = c.id
+WHERE c.nombre = 'María' AND c.apellido1 = 'Santana' AND c.apellido2 = 'Moreno'
+```
 
-25. Consulta 1
+--CONSULTA #7
+```postgresql
+SELECT DISTINCT c.nombre, c.apellido1, c.apellido2
+FROM comercial co INNER JOIN pedido p ON co.id = p.id_comercial
+INNER JOIN cliente c ON p.id_cliente = c.id
+WHERE co.nombre = 'Daniel' AND co.apellido1 = 'Sáez' AND co.apellido2 = 'Vega'
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+### CONSULTAS MULTITABLA (Composición externa)
+--CONSULTA #1
+```postgresql
+SELECT *
+FROM cliente c LEFT JOIN pedido p ON c.id = p.id_cliente
+ORDER BY c.apellido1 ASC, c.apellido2 ASC, c.nombre ASC 
+```
 
-26. Consulta 1
+--CONSULTA #2
+```postgresql
+SELECT *
+FROM comercial c LEFT JOIN pedido p ON c.id = p.id_cliente
+ORDER BY c.apellido1 ASC, c.apellido2 ASC, c.nombre ASC 
+```
+--CONSULTA #3
+```postgresql
+SELECT *
+FROM cliente c LEFT JOIN pedido p ON c.id = p.id_cliente
+WHERE p.id_cliente IS NULL
+ORDER BY c.apellido1 ASC, c.apellido2 ASC, c.nombre ASC 
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+--CONSULTA #4
+```postgresql
+SELECT *
+FROM comercial c LEFT JOIN pedido p ON c.id = p.id_comercial
+WHERE p.id_comercial IS NULL
+ORDER BY c.apellido1 ASC, c.apellido2 ASC, c.nombre ASC
+```
+--CONSULTA #5 
+```postgresql
+SELECT c.nombre || ' ' || c.apellido1 || ' '|| c.apellido2 
+AS "Resultado"
+FROM cliente c LEFT JOIN pedido p ON c.id = p.id_cliente
+WHERE p.id_cliente IS NULL
+UNION
+SELECT co.nombre || ' '|| co.apellido1 || ' ' || co.apellido2 AS "Comercial"
+FROM pedido a RIGHT JOIN comercial co ON co.id = a.id_comercial
+WHERE a.id_comercial IS NULL
+```
 
-27. Consulta 1
+-- CONSULTA #6
+--
+/*
+No es posible utilizar NATURAL LEFT JOIN o NATURAL RIGHT JOIN por la diferencia de nombres de los campos.
+En la tabla Comercial, su Id se llama "Id", y en la tabla Pedido, el campo que es "Id_Comercial".
+También, en la tabla Cliente su PK se llama "Id", mientras que en Pedido, el campo se llama "Id_Cliente".
+*/ 
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+### CONSULTAS RESÚMEN
+--CONSULTA #1
+```postgresql
+SELECT SUM(total) AS "Total"
+FROM pedido 
+```
 
-28. Consulta 1
+--CONSULTA #2
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+```postgresql
+SELECT AVG(p.total) AS "Promedio"
+FROM pedido p
+```
 
-29. Consulta 1
+--CONSULTA #3
+```postgresql
+SELECT COUNT(DISTINCT p.id_comercial) AS "Comerciales distintos"
+FROM pedido p 
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+--CONSULTA #4
+```postgresql
+SELECT COUNT(*) AS "Cantidad de Clientes"
+FROM cliente c
+```
 
-30. Consulta 1
+--CONSULTA #5
+```postgresql
+SELECT MAX(p.total) AS "Mayor cantidad"
+FROM pedido p
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+--CONSULTA #6
+```postgresql
+SELECT MIN(p.total) AS "Menor cantidad"
+FROM pedido p
+```
+--CONSULTA #7
+```postgresql
+SELECT ciudad, MAX(cliente.categoria) 
+FROM cliente 
+GROUP BY ciudad
+```
+--CONSULTA #8 
+```postgresql
+SELECT c.id, c.nombre, c.apellido1, c.apellido2, p.fecha, MAX(p.total) AS "Máximo valor"
+FROM cliente c
+INNER JOIN pedido p ON p.id_cliente = c.id
+WHERE p.fecha BETWEEN '2017-01-01' AND '2017-12-31'
+GROUP BY c.id, p.fecha;
+```
 
-31. Consulta 1
+--CONSULTA #9
+```postgresql
+SELECT p.fecha, MAX(p.total) AS "Valor"
+FROM pedido p
+INNER JOIN cliente c ON c.id = p.id_cliente
+WHERE p.fecha BETWEEN '2017-01-01' AND '2017-12-31'
+GROUP BY p.fecha
+HAVING MAX(p.total) > 2000;
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+--CONSULTA #10
+```postgresql
+SELECT c.id, c.nombre, c.apellido1, c.apellido2, MAX(p.total) AS "Total"
+FROM comercial c INNER JOIN pedido p ON p.id_comercial = c.id
+WHERE p.fecha = '2016-08-17'
+GROUP BY c.id
+```
 
-32. Consulta 1
+--CONSULTA #11
+```postgresql
+SELECT c.id, c.nombre, c.apellido1, c.apellido2, COUNT(p.id) AS "Cantidad de pedidos"
+FROM cliente c LEFT JOIN pedido p ON c.id = p.id_cliente
+GROUP BY c.id
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+--CONSULTA #12
+```postgresql
+SELECT c.id, c.nombre, c.apellido1, c.apellido2, COUNT(p.id_cliente) AS "Cantidad de pedidos"
+FROM pedido p INNER JOIN cliente c ON c.id = p.id_cliente
+WHERE p.fecha BETWEEN '2017-01-01' AND '2017-12-31'
+GROUP BY c.id
+```
 
-33. Consulta 1
+--CONSULTA #13 
+```postgresql
+SELECT c.id, c.nombre, c.apellido1, COALESCE(MAX(p.total), 0) AS "Valor"
+FROM cliente c
+LEFT JOIN pedido p ON c.id = p.id_cliente
+GROUP BY c.id;
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+--CONSULTA #14 
+```postgresql
+SELECT p.fecha, MAX(p.total) AS "Total"
+FROM pedido p
+GROUP BY p.fecha;
+```
 
-34. Consulta 1
+--CONSULTA #15
+```postgresql
+SELECT fecha, COUNT(*) AS "Cantidad de pedidos"
+FROM pedido 
+GROUP BY fecha
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+### CONSULTAS SUBCONSULTAS
+--CONSULTA #1
+```postgresql
+SELECT * 
+FROM pedido p
+WHERE p.id_cliente = (SELECT c.id 
+FROM cliente c
+WHERE c.nombre = 'Adela' AND c.apellido1 = 'Salas' AND c.apellido2 = 'Díaz')
+```
 
-35. Consulta 1
+--CONSULTA #2
+```postgresql
+SELECT COUNT(*) AS "Pedidos de Daniel Sáez Vega"
+FROM pedido p 
+WHERE p.id_comercial = (SELECT c.id
+FROM comercial c
+WHERE c.nombre = 'Daniel' AND c.apellido1 = 'Sáez' AND c.apellido2 = 'Vega')
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+--CONSULTA #3 --PENDIENTE
+ ```postgresql
+SELECT c.nombre, c.apellido1, c.apellido2, c.ciudad
+FROM pedido p, cliente c
+WHERE p.id_cliente = c.id AND p.total = (SELECT MAX(p.total)
+FROM pedido p
+ WHERE YEAR(p.fecha) = '2019')
+ ```
 
-36. Consulta 1
+--CONSULTA #4
+```postgresql
+SELECT p.fecha, MIN(p.total)
+FROM pedido p
+WHERE p.id_cliente = (SELECT c.id
+FROM cliente c
+WHERE c.nombre = 'Pepe' AND c.apellido1 = 'Ruiz' AND c.apellido2 = 'Santana')
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+--CONSULTA #5 
+```postgresql
+SELECT * FROM cliente AS c
+JOIN pedido AS p ON (c.id = p.id_cliente)
+WHERE EXTRACT(YEAR FROM fecha) = 2017 AND p.total >= (
+    SELECT AVG(total) FROM pedido WHERE EXTRACT(YEAR FROM fecha) = 2017
+);
+```
 
-37. Consulta 1
+### CONSULTA ALL Y ANY
+--CONSULTA #1
+```postgresql
+SELECT *
+FROM pedido p 
+WHERE p.total >= ALL(SELECT MAX(p.total)
+FROM pedido p)
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+--CONSULTA #2
+```postgresql
+SELECT c.nombre, c.apellido1, c.apellido2
+FROM cliente c
+WHERE c.id <> ALL(SELECT DISTINCT p.id_cliente FROM pedido p)
+```
 
-38. Consulta 1
+--CONSULTA #3
+```postgresql
+SELECT c.nombre, c.apellido1, c.apellido2
+FROM comercial c
+WHERE c.id <> ALL(SELECT DISTINCT p.id_comercial FROM pedido p)
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+### CONSULTA CON IN Y NOT IN
+--CONSULTA #1
+```postgresql
+SELECT c.nombre, c.apellido1, c.apellido2
+FROM cliente c
+WHERE c.id NOT IN (SELECT DISTINCT p.id_cliente
+                   FROM pedido p)
+```
 
-39. Consulta 1
+--CONSULTA #2
+```postgresql
+SELECT c.nombre, c.apellido1, c.apellido2
+FROM comercial c
+WHERE c.id NOT IN (SELECT DISTINCT p.id_comercial
+                   FROM pedido p)
+```
 
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
+### CONSULTA CON EXISTS Y NO EXISTS
+--CONSULTA #1
+```postgresql
+SELECT *
+FROM cliente c
+WHERE NOT EXISTS (SELECT p.id_cliente 
+FROM pedido p
+WHERE c.id = p.id_cliente)
+```
 
-40. Consulta 1
-
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
-
-41. Consulta 1
-
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
-
-42. Consulta 1
-
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
-
-43. Consulta 1
-
-    ```postgresql
-     SELECT * FROM pedido 
-     ORDER BY fecha DESC;
-    ```
-
-44. 
+--CONSULTA #2
+```postgresql
+SELECT *
+FROM comercial c
+WHERE NOT EXISTS (SELECT p.id_cliente
+FROM pedido p
+WHERE c.id = p.id_comercial)
+```
